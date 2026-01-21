@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Controle de Matéria-Prima Industrial</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Controle de Matéria-Prima Industrial</h1>
+    <p>Gestão de estoque, movimentações e sugestões de compra.</p>
+  </header>
+
+  <main class="container">
+    <section class="alerts" id="messages"></section>
+
+    <section class="card-grid" id="dashboard-cards">
+      <div class="card">
+        <h3>Total de itens</h3>
+        <strong id="total-itens">0</strong>
+      </div>
+      <div class="card warning">
+        <h3>Itens em atenção</h3>
+        <strong id="itens-atencao">0</strong>
+      </div>
+      <div class="card danger">
+        <h3>Itens críticos</h3>
+        <strong id="itens-criticos">0</strong>
+      </div>
+    </section>
+
+    <section class="panel">
+      <header>
+        <h2>Cadastro de itens</h2>
+      </header>
+      <form id="item-form" class="form-grid">
+        <input type="hidden" id="item-id" />
+        <label>
+          SKU
+          <input type="text" id="sku" required />
+        </label>
+        <label>
+          Descrição
+          <input type="text" id="descricao" required />
+        </label>
+        <label>
+          Unidade
+          <select id="unidade" required>
+            <option value="kg">kg</option>
+            <option value="saca">saca</option>
+            <option value="fardo">fardo</option>
+            <option value="cx">cx</option>
+            <option value="un">un</option>
+            <option value="L">L</option>
+          </select>
+        </label>
+        <label>
+          Categoria
+          <input type="text" id="categoria" />
+        </label>
+        <label>
+          Estoque atual
+          <input type="number" id="estoque_atual" step="0.01" min="0" required />
+        </label>
+        <label>
+          Estoque mínimo
+          <input type="number" id="estoque_minimo" step="0.01" min="0" required />
+        </label>
+        <label>
+          Estoque segurança
+          <input type="number" id="estoque_seguranca" step="0.01" min="0" required />
+        </label>
+        <label>
+          Lead time (dias)
+          <input type="number" id="lead_time_dias" step="1" min="0" required />
+        </label>
+        <label>
+          Consumo médio diário
+          <input type="number" id="consumo_medio_diario" step="0.01" min="0" required />
+        </label>
+        <div class="form-actions">
+          <button type="submit">Salvar item</button>
+          <button type="button" id="reset-item">Limpar</button>
+        </div>
+      </form>
+
+      <div class="filters">
+        <input type="text" id="search" placeholder="Buscar por SKU ou descrição" />
+        <select id="filter-status">
+          <option value="">Todos os status</option>
+          <option value="OK">OK</option>
+          <option value="ATENCAO">Atenção</option>
+          <option value="CRITICO">Crítico</option>
+        </select>
+        <input type="text" id="filter-categoria" placeholder="Categoria" />
+        <button type="button" id="apply-filter">Filtrar</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Descrição</th>
+              <th>Estoque atual</th>
+              <th>Ponto de pedido</th>
+              <th>Estoque segurança</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="items-table"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <header>
+        <h2>Movimentação de estoque</h2>
+      </header>
+      <form id="movement-form" class="form-grid">
+        <label>
+          Item (SKU)
+          <select id="movement-item" required></select>
+        </label>
+        <label>
+          Tipo
+          <select id="movement-type" required>
+            <option value="ENTRADA">Entrada</option>
+            <option value="SAIDA">Saída</option>
+            <option value="AJUSTE_RELATIVO">Ajuste relativo (+/-)</option>
+            <option value="AJUSTE_ABSOLUTO">Ajuste absoluto</option>
+          </select>
+        </label>
+        <label>
+          Quantidade
+          <input type="number" id="movement-quantidade" step="0.01" required />
+        </label>
+        <label>
+          Responsável
+          <input type="text" id="movement-responsavel" />
+        </label>
+        <label>
+          Observação
+          <input type="text" id="movement-observacao" />
+        </label>
+        <div class="form-actions">
+          <button type="submit">Registrar movimentação</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <header>
+        <h2>Sugestão de compras</h2>
+      </header>
+      <div class="filters">
+        <label>
+          Dias de cobertura
+          <input type="number" id="dias-cobertura" min="1" step="1" value="30" />
+        </label>
+        <button id="load-suggestions" type="button">Gerar lista</button>
+        <a id="export-csv" class="link-button" href="#">Exportar CSV</a>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Descrição</th>
+              <th>Estoque atual</th>
+              <th>Consumo médio diário</th>
+              <th>Quantidade sugerida</th>
+            </tr>
+          </thead>
+          <tbody id="suggestions-table"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
