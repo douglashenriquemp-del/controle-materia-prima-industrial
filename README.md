@@ -42,6 +42,15 @@ http://localhost:5500/?mock=true
 Esse modo usa dados simulados e permite cadastrar, editar, movimentar e gerar sugestões sem o backend.
 Também permite exportar a sugestão de compras em CSV diretamente do navegador.
 
+## VS Code (atalhos de execução)
+
+O projeto inclui tarefas e configurações de execução em `.vscode/`:
+
+- **Backend: FastAPI (uvicorn)** — inicia a API em `0.0.0.0:8000`.
+- **Frontend: HTTP Server** — inicia o servidor estático em `0.0.0.0:5500`.
+
+Para usar, abra o menu **Terminal > Run Task** ou **Run and Debug** no VS Code.
+
 ## Acesso via celular na mesma rede
 
 1. Descubra o IP do computador servidor (ex: `192.168.0.10`).
